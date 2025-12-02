@@ -26,13 +26,12 @@
                     ЗАГРУЗИТЬ .TXT
                     <input type="file" id="file-input" accept=".txt" hidden onchange="handleFileUpload(this)">
                 </label>
-                
                 <button class="btn btn-secondary full-width" onclick="downloadGameData()">
                     СКАЧАТЬ ПРОГРЕСС
                 </button>
             </div>
             <p style="font-size: 0.8rem; color: #888; margin-top: 10px; line-height: 1.4;">
-                Для разделения раундов ставьте цифры "1" и "2" на отдельных строках в файле.
+                Автозагрузка из questions.txt включена.
             </p>
         </div>
 
@@ -50,7 +49,7 @@
                     <span class="material-icons-round">menu</span>
                 </button>
                 <h1>Своя Игра</h1>
-                <button class="icon-btn" onclick="playSound('intro')" title="Играть заставку" style="margin-left: 10px;">
+                <button class="icon-btn" onclick="playSound('intro')" title="Заставка" style="margin-left: 10px;">
                     <span class="material-icons-round">play_circle</span>
                 </button>
             </div>
@@ -59,11 +58,12 @@
                 <button class="round-tab active">Раунд 1</button>
             </div>
             
-            <div style="width: 50px;"></div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-success btn-sm" onclick="showStats()">📊 ИТОГИ</button>
+            </div>
         </header>
 
         <div class="content-row">
-            
             <div class="game-area">
                 <div id="game-board" class="board-grid"></div>
             </div>
@@ -76,7 +76,6 @@
                     </button>
                 </div>
             </div>
-
         </div>
     </main>
 
@@ -119,6 +118,34 @@
                 <div id="close-modal-btn" class="hidden" style="margin-top: 20px;">
                      <button class="btn btn-outline" onclick="closeModal()">Закрыть вопрос</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="stats-modal" class="modal-overlay hidden" style="z-index: 2000;">
+        <div class="stats-card">
+            <div class="stats-header">
+                <h2>ИТОГОВЫЙ СЧЕТ</h2>
+                <button class="icon-btn" onclick="closeStats()">
+                    <span class="material-icons-round" style="font-size: 2rem;">close</span>
+                </button>
+            </div>
+            <div class="stats-body">
+                <table class="stats-table">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Игрок</th>
+                            <th>Счёт</th>
+                            <th>Заработано</th>
+                            <th>Потеряно</th>
+                            <th>Верно</th>
+                            <th>Ошибки</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stats-table-body">
+                        </tbody>
+                </table>
             </div>
         </div>
     </div>
