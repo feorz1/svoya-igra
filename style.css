@@ -280,7 +280,7 @@ body {
 }
 
 /* ============================================
-   GAME BOARD - ДОБАВЛЕНЫ СКРУГЛЕНИЯ ВНУТРИ
+   GAME BOARD - СКРУГЛЕНИЯ 10px, ЗАКРЫТЫЕ #0a84ff
 ============================================ */
 
 .board-grid {
@@ -309,7 +309,7 @@ body {
     cursor: pointer;
     transition: all 0.2s ease;
     user-select: none;
-    border-radius: 4px;
+    border-radius: 10px;
 }
 
 .cell:hover {
@@ -329,7 +329,7 @@ body {
 }
 
 .cell.disabled {
-    background: #001a33;
+    background: #0a84ff;
     color: transparent;
     pointer-events: none;
 }
