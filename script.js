@@ -321,8 +321,99 @@ function fireConfetti() {
 }
 
 function toggleSidebar() { sidebar.classList.toggle('open'); }
-function renderEditor() { /* (Тот же код редактора) */ }
-function downloadGameData() { /* (Тот же код скачивания) */ }
+
+// --- EDITOR SIDEBAR ---
+function renderEditor() {
+    editorContent.innerHTML = '';
+    
+    if (!gameData || gameData.length === 0) {
+        editorContent.innerHTML = '<p style="color: #999; text-align: center; padding: 20px;">Загрузите файл вопросов</p>';
+        return;
+    }
+
+    gameData.forEach((cat, catIndex) => {
+        const group = document.createElement('div');
+        group.className = 'edit-group';
+
+        // Заголовок категории
+        const catLabel = document.createElement('label');
+        catLabel.className = 'edit-label';
+        catLabel.textContent = 'Категория';
+        group.appendChild(catLabel);
+
+        const catInput = document.createElement('input');
+        catInput.className = 'edit-input';
+        catInput.value = cat.category;
+        catInput.onchange = (e) => { gameData[catIndex].category = e.target.value; };
+        group.appendChild(catInput);
+
+        // Вопросы
+        cat.questions.forEach((q, qIndex) => {
+            const row = document.createElement('div');
+            row.className = 'edit-row';
+
+            const qLabel = document.createElement('label');
+            qLabel.className = 'edit-label';
+            qLabel.textContent = `Вопрос ${q.p}`;
+            row.appendChild(qLabel);
+
+            const qInput = document.createElement('input');
+            qInput.className = 'edit-input';
+            qInput.value = q.q;
+            qInput.onchange = (e) => { gameData[catIndex].questions[qIndex].q = e.target.value; };
+            row.appendChild(qInput);
+
+            const aLabel = document.createElement('label');
+            aLabel.className = 'edit-label';
+            aLabel.textContent = 'Ответ';
+            row.appendChild(aLabel);
+
+            const aInput = document.createElement('input');
+            aInput.className = 'edit-input';
+            aInput.value = q.a;
+            aInput.onchange = (e) => { gameData[catIndex].questions[qIndex].a = e.target.value; };
+            row.appendChild(aInput);
+
+            group.appendChild(row);
+        });
+
+        // Кнопка удаления категории
+        const delBtn = document.createElement('button');
+        delBtn.className = 'delete-cat-btn';
+        delBtn.textContent = 'Удалить категорию';
+        delBtn.onclick = () => {
+            if (confirm(`Удалить категорию "${cat.category}"?`)) {
+                gameData.splice(catIndex, 1);
+                renderEditor();
+            }
+        };
+        group.appendChild(delBtn);
+
+        editorContent.appendChild(group);
+    });
+}
+
+function downloadGameData() {
+    let txt = '';
+    gameRounds.forEach((round, rIndex) => {
+        txt += `${rIndex + 1}\n\n`;
+        round.forEach(cat => {
+            txt += `Тема ${rIndex + 1}. ${cat.category}.\n`;
+            cat.questions.forEach(q => {
+                txt += `${q.p}. ${q.q}\n`;
+                txt += `Ответ: ${q.a}.\n`;
+            });
+            txt += '\n';
+        });
+    });
+
+    const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'questions_export.txt';
+    link.click();
+}
+
 function saveAndRefresh() { renderBoard(); toggleSidebar(); }
 function resetToDefault() { if(confirm('Сбросить?')) { location.reload(); } }
 
