@@ -53,7 +53,7 @@ body { font-family: 'Roboto', sans-serif; background-color: var(--bg-app); margi
 .blinking { animation: blinkCell 0.3s ease-in-out 3; z-index: 100 !important; border-color: #fff !important; }
 .players-section { width: 320px; background: #0f0f1a; padding: 10px; border-left: 1px solid #333; display: flex; flex-direction: column; gap: 10px; z-index: 10; height: auto; }
 .players-list { display: flex; flex-direction: column; gap: 15px; overflow-y: auto; overflow-x: visible; padding: 10px; flex: 1; }
-.player-card { background: #202035; border: 2px solid #444; border-radius: 10px; padding: 10px 15px; display: flex; align-items: center; gap: 15px; width: 100%; box-sizing: border-box; transition: 0.2s; cursor: pointer; overflow: visible; }
+.player-card { background: #202035; border: 2px solid #444; border-radius: 10px; padding: 10px 15px; display: flex; align-items: center; gap: 15px; width: 100%; box-sizing: border-box; transition: 0.2s; cursor: pointer; overflow: visible; position: relative; }
 .player-card.active-turn { border-color: var(--primary); background: #2a2a45; box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); transform: scale(1.02); }
 .player-avatar { width: 60px; height: 60px; border-radius: 5px; background: #fff; border: 3px solid var(--primary); object-fit: cover; cursor: pointer; transition: transform 0.2s; flex-shrink: 0; position: relative; }
 .player-avatar:hover { transform: scale(1.1); border-color: #fff; }
@@ -158,14 +158,15 @@ body { font-family: 'Roboto', sans-serif; background-color: var(--bg-app); margi
     position: relative; /* Для позиционирования венка */
 }
 
-/* Венок победителя */
+/* Венок победителя - ВАРИАНТ 2 */
 .winner-wreath {
     position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
+    top: -6px;
+    left: 18px;
+    width: 32px;
     height: auto;
+    transform: none;
+    pointer-events: none;
     z-index: 5;
     filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5));
 }
