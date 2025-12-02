@@ -280,7 +280,7 @@ body {
 }
 
 /* ============================================
-   GAME BOARD
+   GAME BOARD - ДОБАВЛЕНЫ СКРУГЛЕНИЯ ВНУТРИ
 ============================================ */
 
 .board-grid {
@@ -309,6 +309,7 @@ body {
     cursor: pointer;
     transition: all 0.2s ease;
     user-select: none;
+    border-radius: 4px;
 }
 
 .cell:hover {
@@ -343,7 +344,7 @@ body {
 }
 
 /* ============================================
-   PLAYERS SECTION - ИСПРАВЛЕН OVERFLOW
+   PLAYERS SECTION - БЕЗ ПОДЪЕМА ПРИ ХОВЕРЕ
 ============================================ */
 
 .players-section {
@@ -381,11 +382,14 @@ body {
     overflow: visible;
 }
 
+.player-card:hover {
+    background: var(--surface-elevated);
+}
+
 .player-card.active-turn {
     border-color: var(--accent-primary);
     background: var(--surface-elevated);
     box-shadow: 0 0 0 2px var(--accent-primary);
-    transform: scale(1.02);
 }
 
 .player-avatar {
