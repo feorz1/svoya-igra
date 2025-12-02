@@ -417,4 +417,25 @@ function downloadGameData() {
 function saveAndRefresh() { renderBoard(); toggleSidebar(); }
 function resetToDefault() { if(confirm('Сбросить?')) { location.reload(); } }
 
+// --- ПЕРЕКЛЮЧЕНИЕ ТЕМ ---
+function toggleTheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme') || 'apple';
+    const newTheme = currentTheme === 'apple' ? 'material' : 'apple';
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    // Визуальная обратная связь
+    const themeName = newTheme === 'apple' ? 'Apple' : 'Material Design';
+    console.log(`Тема изменена на: ${themeName}`);
+}
+
+// Загрузить сохраненную тему при старте
+window.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+});
+
 initGame();
