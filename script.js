@@ -5,7 +5,7 @@ let gameRounds = [
 let currentRoundIndex = 0;
 let gameData = gameRounds[currentRoundIndex];
 
-// Добавили поля статистики в структуру игрока
+// Игроки со статистикой
 let players = [
     { id: 1, name: "Игрок 1", score: 0, earned: 0, lost: 0, correct: 0, wrong: 0, avatarSeed: Date.now() }, 
     { id: 2, name: "Игрок 2", score: 0, earned: 0, lost: 0, correct: 0, wrong: 0, avatarSeed: Date.now() + 1 }
@@ -35,7 +35,7 @@ function stopSound(type) { const sound = audioLibrary[type]; if (sound) { sound.
 const board = document.getElementById('game-board');
 const playersList = document.getElementById('players-list');
 const modal = document.getElementById('modal');
-const statsModal = document.getElementById('stats-modal'); // НОВОЕ
+const statsModal = document.getElementById('stats-modal');
 const sidebar = document.getElementById('sidebar');
 const editorContent = document.getElementById('editor-content');
 const roundTabsContainer = document.getElementById('round-tabs');
@@ -103,7 +103,6 @@ function parseTxtToGame(text, silent = false) {
 
     if (newRounds.length > 0) {
         gameRounds = newRounds;
-        // Если это первый запуск, надо обновить игроков
         if (playersList.innerHTML === '') renderPlayers();
         switchRound(0);
         if (!silent) { alert(`Загружено раундов: ${gameRounds.length}`); toggleSidebar(); }
@@ -175,7 +174,6 @@ function changeAvatar(id) { const p = players.find(pl => pl.id === id); if (p) {
 function editScore(id) { const p = players.find(pl => pl.id === id); const newScore = prompt(`Счет для ${p.name}:`, p.score); if (newScore !== null && !isNaN(newScore)) { p.score = parseInt(newScore); renderPlayers(); } }
 function updatePlayerName(id, val) { const p = players.find(pl => pl.id === id); if (p) p.name = val; renderPlayers(); }
 function addPlayer() { 
-    // Создаем игрока с полями статистики
     players.push({ 
         id: Date.now(), 
         name: `Игрок ${players.length + 1}`, 
@@ -186,23 +184,31 @@ function addPlayer() {
 }
 function removePlayer(id) { if (confirm('Удалить?')) { players = players.filter(pl => pl.id !== id); if (activePlayerIndex >= players.length) activePlayerIndex = 0; renderPlayers(); } }
 
-// --- STATS LOGIC (НОВОЕ) ---
+// --- STATS LOGIC (ОБНОВЛЕНО) ---
 function showStats() {
     const tbody = document.getElementById('stats-table-body');
     tbody.innerHTML = '';
     
-    // Сортировка: у кого больше очков - тот выше
     const sortedPlayers = [...players].sort((a, b) => b.score - a.score);
+
+    // URL картинки венка (можно заменить на свой локальный файл)
+    const wreathUrl = "https://cdn-icons-png.flaticon.com/512/2545/2545603.png";
 
     sortedPlayers.forEach((p, index) => {
         const tr = document.createElement('tr');
         const seed = p.avatarSeed || p.id;
         const avatarUrl = `https://api.dicebear.com/9.x/adventurer/svg?seed=${seed}&backgroundColor=b6e3f4`;
         
+        // Добавляем венок только первому игроку
+        let wreathHtml = '';
+        if (index === 0) {
+            wreathHtml = `<img src="${wreathUrl}" class="winner-wreath" alt="winner">`;
+        }
+
         tr.innerHTML = `
             <td class="stat-rank ${index === 0 ? 'rank-1' : ''}">${index + 1}</td>
             <td class="stat-name">
-                <img src="${avatarUrl}" style="width:40px; height:40px; border-radius:50%; margin-right:10px;">
+                ${wreathHtml} <img src="${avatarUrl}" style="width:50px; height:50px; border-radius:50%; border: 2px solid #fff;">
                 ${p.name}
             </td>
             <td class="stat-score">${p.score}</td>
@@ -270,8 +276,8 @@ function handleScore(isCorrect) {
 
     if (isCorrect) {
         player.score += points;
-        player.earned += points; // Статистика
-        player.correct += 1;     // Статистика
+        player.earned += points;
+        player.correct += 1;
         
         activePlayerIndex = answeringPlayerIndex;
         playSound('correct'); 
@@ -279,8 +285,8 @@ function handleScore(isCorrect) {
         finishQuestion();
     } else {
         player.score -= points;
-        player.lost -= points;   // Статистика (тут храним отрицательное число или положительное? Давайте как "потеряно 500")
-        player.wrong += 1;       // Статистика
+        player.lost -= points;
+        player.wrong += 1;
         
         playSound('wrong'); 
         finishQuestion();
@@ -315,7 +321,7 @@ function fireConfetti() {
 }
 
 function toggleSidebar() { sidebar.classList.toggle('open'); }
-function renderEditor() { /* (Тот же код редактора, сокращен для краткости) */ }
+function renderEditor() { /* (Тот же код редактора) */ }
 function downloadGameData() { /* (Тот же код скачивания) */ }
 function saveAndRefresh() { renderBoard(); toggleSidebar(); }
 function resetToDefault() { if(confirm('Сбросить?')) { location.reload(); } }
