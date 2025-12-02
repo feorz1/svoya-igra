@@ -689,7 +689,7 @@ body {
     color: var(--text-primary);
     border-radius: var(--radius-lg);
     font-size: 20px;
-    font-weight: 700;
+    font-weight: 500;
     box-shadow: var(--shadow-md);
     animation: answerSlide 0.3s ease;
 }
