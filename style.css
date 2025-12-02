@@ -1,16 +1,14 @@
 /* ============================================
-   ДВЕ ТЕМЫ: APPLE & MATERIAL DESIGN
-   Переключение через data-theme на <html>
+   APPLE THEME - ЕДИНСТВЕННАЯ ТЕМА
+   Убраны прозрачности и blur эффекты
 ============================================ */
 
-/* --- APPLE THEME (По умолчанию) --- */
-:root,
-[data-theme="apple"] {
+:root {
     /* Цвета */
     --bg-primary: #0d0d0d;
     --bg-secondary: #1c1c1e;
-    --surface: rgba(28, 28, 30, 0.8);
-    --surface-elevated: rgba(44, 44, 46, 0.9);
+    --surface: #1c1c1e;
+    --surface-elevated: #2c2c2e;
     --text-primary: #ffffff;
     --text-secondary: rgba(255, 255, 255, 0.6);
     --text-tertiary: rgba(255, 255, 255, 0.4);
@@ -43,57 +41,6 @@
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
-    
-    /* Glassmorphism */
-    --glass-bg: rgba(28, 28, 30, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.12);
-    --blur: 20px;
-}
-
-/* --- MATERIAL THEME --- */
-[data-theme="material"] {
-    /* Цвета */
-    --bg-primary: #121212;
-    --bg-secondary: #1e1e1e;
-    --surface: #2c2c2c;
-    --surface-elevated: #383838;
-    --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.7);
-    --text-tertiary: rgba(255, 255, 255, 0.5);
-    
-    --accent-primary: #bb86fc;
-    --accent-primary-hover: #d0a3ff;
-    --accent-success: #03dac6;
-    --accent-danger: #cf6679;
-    --accent-warning: #ff6e40;
-    
-    --border-color: rgba(255, 255, 255, 0.12);
-    --divider: rgba(255, 255, 255, 0.12);
-    
-    /* Игровое поле */
-    --grid-border: #bb86fc;
-    --cell-bg: #6200ea;
-    --cell-hover: #7c3aed;
-    
-    /* Типографика */
-    --font-sans: 'Roboto', 'Segoe UI', sans-serif;
-    --font-display: 'Roboto Condensed', sans-serif;
-    
-    /* Скругления */
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --radius-xl: 16px;
-    
-    /* Тени - Material Elevation */
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
-    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.4);
-    
-    /* Glassmorphism отключен */
-    --glass-bg: var(--surface);
-    --glass-border: var(--border-color);
-    --blur: 0px;
 }
 
 /* ============================================
@@ -138,7 +85,6 @@ body {
     letter-spacing: 0.5px;
     outline: none;
     position: relative;
-    overflow: hidden;
 }
 
 .btn:active {
@@ -263,8 +209,7 @@ body {
 
 .top-bar {
     padding: 12px 20px;
-    background: var(--glass-bg);
-    backdrop-filter: blur(var(--blur));
+    background: var(--surface);
     border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
@@ -346,7 +291,7 @@ body {
     background: var(--grid-border);
     border: 3px solid var(--grid-border);
     border-radius: var(--radius-lg);
-    box-shadow: 0 0 40px rgba(var(--grid-border), 0.3);
+    box-shadow: 0 0 40px rgba(10, 132, 255, 0.3);
     width: 95%;
     height: 95%;
 }
@@ -383,7 +328,7 @@ body {
 }
 
 .cell.disabled {
-    background: rgba(var(--cell-bg), 0.3);
+    background: #001a33;
     color: transparent;
     pointer-events: none;
 }
@@ -398,7 +343,7 @@ body {
 }
 
 /* ============================================
-   PLAYERS SECTION
+   PLAYERS SECTION - ИСПРАВЛЕН OVERFLOW
 ============================================ */
 
 .players-section {
@@ -409,6 +354,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    overflow: visible;
 }
 
 .players-list {
@@ -418,7 +364,7 @@ body {
     gap: 12px;
     overflow-y: auto;
     overflow-x: visible;
-    padding-right: 4px;
+    padding: 4px;
 }
 
 .player-card {
@@ -438,7 +384,7 @@ body {
 .player-card.active-turn {
     border-color: var(--accent-primary);
     background: var(--surface-elevated);
-    box-shadow: 0 0 20px rgba(var(--accent-primary), 0.3);
+    box-shadow: 0 0 0 2px var(--accent-primary);
     transform: scale(1.02);
 }
 
@@ -523,7 +469,7 @@ body {
 }
 
 /* ============================================
-   SIDEBAR
+   SIDEBAR - БЕЗ ПРОЗРАЧНОСТИ
 ============================================ */
 
 .sidebar {
@@ -623,7 +569,7 @@ body {
 .edit-input {
     width: 100%;
     padding: 8px 12px;
-    background: var(--surface);
+    background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
     color: var(--text-primary);
@@ -655,14 +601,13 @@ body {
 }
 
 /* ============================================
-   MODAL
+   MODAL - БЕЗ ПРОЗРАЧНОСТИ И BLUR
 ============================================ */
 
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.85);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -787,7 +732,7 @@ body {
 }
 
 /* ============================================
-   STATS MODAL
+   STATS MODAL - УВЕЛИЧЕННЫЙ ТЕКСТ
 ============================================ */
 
 .stats-card {
@@ -831,9 +776,9 @@ body {
 }
 
 .stats-table thead th {
-    padding: 12px;
+    padding: 14px;
     text-align: center;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -852,9 +797,9 @@ body {
 }
 
 .stats-table td {
-    padding: 16px;
+    padding: 18px;
     text-align: center;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
 }
 
@@ -877,7 +822,7 @@ body {
 }
 
 .stat-rank {
-    font-size: 28px !important;
+    font-size: 32px !important;
     color: var(--text-tertiary);
     font-weight: 900;
 }
@@ -886,7 +831,7 @@ body {
     color: var(--accent-primary);
 }
 
-.stat-score { color: var(--text-primary); }
+.stat-score { color: var(--text-primary); font-size: 24px !important; }
 .stat-earned { color: var(--accent-success); }
 .stat-lost { color: var(--accent-danger); }
 .stat-correct { color: var(--accent-success); }
