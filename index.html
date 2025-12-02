@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Своя Игра</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h2>Настройки</h2>
+            <button class="icon-btn" onclick="toggleSidebar()">
+                <span class="material-icons-round">close</span>
+            </button>
+        </div>
+        
+        <div class="sidebar-section">
+            <h3>📂 Файл вопросов</h3>
+            <div class="sidebar-buttons-container">
+                <label class="btn btn-primary full-width">
+                    ЗАГРУЗИТЬ .TXT
+                    <input type="file" id="file-input" accept=".txt" hidden onchange="handleFileUpload(this)">
+                </label>
+                
+                <button class="btn btn-secondary full-width" onclick="downloadGameData()">
+                    СКАЧАТЬ ПРОГРЕСС
+                </button>
+            </div>
+            <p style="font-size: 0.8rem; color: #888; margin-top: 10px; line-height: 1.4;">
+                Для разделения раундов ставьте цифры "1" и "2" на отдельных строках в файле.
+            </p>
+        </div>
+
+        <div class="sidebar-content" id="editor-content"></div>
+        <div class="sidebar-footer">
+            <button class="btn btn-primary full-width" onclick="saveAndRefresh()">Применить</button>
+            <button class="btn btn-danger full-width" style="margin-top:10px" onclick="resetToDefault()">Сброс</button>
+        </div>
+    </aside>
+
+    <main class="main-container">
+        <header class="top-bar">
+            <div class="left-section">
+                <button class="icon-btn menu-btn" onclick="toggleSidebar()">
+                    <span class="material-icons-round">menu</span>
+                </button>
+                <h1>Своя Игра</h1>
+                <button class="icon-btn" onclick="playSound('intro')" title="Играть заставку" style="margin-left: 10px;">
+                    <span class="material-icons-round">play_circle</span>
+                </button>
+            </div>
+            
+            <div id="round-tabs" class="round-tabs">
+                <button class="round-tab active">Раунд 1</button>
+            </div>
+            
+            <div style="width: 50px;"></div>
+        </header>
+
+        <div class="content-row">
+            
+            <div class="game-area">
+                <div id="game-board" class="board-grid"></div>
+            </div>
+
+            <div class="players-section">
+                <div id="players-list" class="players-list"></div>
+                <div class="players-controls">
+                    <button class="btn btn-small btn-add" onclick="addPlayer()">
+                        <span class="material-icons-round">add</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-header-line">
+                <span id="modal-category">Категория</span><span style="margin-right: 5px;">,</span>
+                <span id="modal-points">100</span>
+            </div>
+            
+            <div class="modal-body">
+                <div id="question-text" class="text-display">Текст вопроса</div>
+                <div id="answer-container" class="answer-container hidden">
+                    <div class="answer-label">Правильный ответ:</div>
+                    <div id="answer-text" class="answer-card">Ответ</div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div id="decision-controls" class="player-controls">
+                    <div class="current-turn-label">
+                        Ход: <span id="modal-player-name-decision" class="highlight-name">...</span>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary btn-lg" onclick="revealAnswer()">Ответить</button>
+                        <button class="btn btn-secondary btn-lg" onclick="handlePass()">Пас ➜</button>
+                    </div>
+                </div>
+
+                <div id="scoring-controls" class="player-controls hidden">
+                    <div class="current-turn-label">
+                        Проверка: <span id="modal-player-name-scoring" class="highlight-name">...</span>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-success" onclick="handleScore(true)">Верно (+)</button>
+                        <button class="btn btn-danger" onclick="handleScore(false)">Неверно (-)</button>
+                    </div>
+                </div>
+                
+                <div id="close-modal-btn" class="hidden" style="margin-top: 20px;">
+                     <button class="btn btn-outline" onclick="closeModal()">Закрыть вопрос</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
