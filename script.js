@@ -184,14 +184,13 @@ function addPlayer() {
 }
 function removePlayer(id) { if (confirm('Удалить?')) { players = players.filter(pl => pl.id !== id); if (activePlayerIndex >= players.length) activePlayerIndex = 0; renderPlayers(); } }
 
-// --- STATS LOGIC (ОБНОВЛЕНО) ---
+// --- STATS LOGIC ---
 function showStats() {
     const tbody = document.getElementById('stats-table-body');
     tbody.innerHTML = '';
     
     const sortedPlayers = [...players].sort((a, b) => b.score - a.score);
 
-    // URL картинки венка (можно заменить на свой локальный файл)
     const wreathUrl = "https://cdn-icons-png.flaticon.com/512/2545/2545603.png";
 
     sortedPlayers.forEach((p, index) => {
@@ -199,7 +198,6 @@ function showStats() {
         const seed = p.avatarSeed || p.id;
         const avatarUrl = `https://api.dicebear.com/9.x/adventurer/svg?seed=${seed}&backgroundColor=b6e3f4`;
         
-        // Добавляем венок только первому игроку
         let wreathHtml = '';
         if (index === 0) {
             wreathHtml = `<img src="${wreathUrl}" class="winner-wreath" alt="winner">`;
@@ -335,7 +333,6 @@ function renderEditor() {
         const group = document.createElement('div');
         group.className = 'edit-group';
 
-        // Заголовок категории
         const catLabel = document.createElement('label');
         catLabel.className = 'edit-label';
         catLabel.textContent = 'Категория';
@@ -347,7 +344,6 @@ function renderEditor() {
         catInput.onchange = (e) => { gameData[catIndex].category = e.target.value; };
         group.appendChild(catInput);
 
-        // Вопросы
         cat.questions.forEach((q, qIndex) => {
             const row = document.createElement('div');
             row.className = 'edit-row';
@@ -377,7 +373,6 @@ function renderEditor() {
             group.appendChild(row);
         });
 
-        // Кнопка удаления категории
         const delBtn = document.createElement('button');
         delBtn.className = 'delete-cat-btn';
         delBtn.textContent = 'Удалить категорию';
@@ -416,26 +411,5 @@ function downloadGameData() {
 
 function saveAndRefresh() { renderBoard(); toggleSidebar(); }
 function resetToDefault() { if(confirm('Сбросить?')) { location.reload(); } }
-
-// --- ПЕРЕКЛЮЧЕНИЕ ТЕМ ---
-function toggleTheme() {
-    const html = document.documentElement;
-    const currentTheme = html.getAttribute('data-theme') || 'apple';
-    const newTheme = currentTheme === 'apple' ? 'material' : 'apple';
-    html.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    
-    // Визуальная обратная связь
-    const themeName = newTheme === 'apple' ? 'Apple' : 'Material Design';
-    console.log(`Тема изменена на: ${themeName}`);
-}
-
-// Загрузить сохраненную тему при старте
-window.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-    }
-});
 
 initGame();
