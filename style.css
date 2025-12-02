@@ -35,7 +35,7 @@ body { font-family: 'Roboto', sans-serif; background-color: var(--bg-app); margi
 .top-bar { padding: 10px 20px; background: #050510; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #222; flex-shrink: 0; }
 .icon-btn { color: #fff; background: transparent; border: none; cursor: pointer; padding: 8px; border-radius: 50%; }
 .full-width { width: 100%; margin: 0; box-sizing: border-box; display: flex; justify-content: center; align-items: center; }
-.round-tabs { display: flex; gap: 10px; background: #1a1a2e; padding: 5px; border-radius: 30px; border: 1px solid #333; }
+.round-tabs { display: flex; gap: 10px; background: #1a1a2e; padding: 5px; border-radius: 14px; border: 1px solid #333; }
 .round-tab { background: transparent; border: none; color: #888; padding: 8px 20px; cursor: pointer; font-weight: bold; border-radius: 10px; transition: 0.3s; font-size: 0.9rem; text-transform: uppercase; }
 .round-tab:hover { color: #fff; }
 .round-tab.active { background: var(--primary); color: #000; }
